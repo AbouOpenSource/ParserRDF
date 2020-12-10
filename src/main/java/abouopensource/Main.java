@@ -33,8 +33,9 @@ public class Main {
         String graphStore = datasetURL + "/data";
         RDFConnection connection = RDFConnectionFactory.connect(sparqlEndpoint,sparqlUpdate,graphStore);
         Model model = ModelFactory.createDefaultModel();
-       // parseBikeStationStEtienne(model);
-       // parseBikeStationToulouse(model);
+        parseBikeStationStEtienne(model);
+        parseBikeStationToulouse(model);
+        //can take a long time
         parseTrainStation(model,connection);
         connection.load(model);
         connection.close();
