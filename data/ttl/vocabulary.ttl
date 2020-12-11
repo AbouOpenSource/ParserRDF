@@ -1,0 +1,11 @@
+@prefix dbpedia:   <http://dbpedia.org/ontology/> .
+@prefix geodata:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix main:    <https://abouopensource.github.io/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+
+main:hasRealTime a rdf:Property .
+main:local_id a rdf:Property.
+main:pathRealTimeData a rdf:Property.
+main:method a rdf:Property.
