@@ -1,0 +1,5 @@
+stop_id,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station
+StopArea:OCE87726190,"Gare de St-Etienne-Bellevue",,45.41720325,4.39265719,,,1,
+StopArea:OCE87726174,"Gare de St-Etienne-le-Clapier",,45.43710114,4.37840247,,,1,
+StopArea:OCE87726901,"Gare de St-Etienne-Carnot",,45.44681841,4.38538361,,,1,
+StopArea:OCE87726000,"Gare de St-Etienne-Châteaucreux",,45.44338161,4.39999641,,,1,

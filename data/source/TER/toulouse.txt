@@ -1,0 +1,3 @@
+stop_id,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station
+StopArea:OCE87611004,"Gare de Toulouse-Matabiau",,43.61146412,1.45355763,,,1,
+StopArea:OCE87612010,"Gare de Montaudran",,43.57369405,1.48023909,,,1,
