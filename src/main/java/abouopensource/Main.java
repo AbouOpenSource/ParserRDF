@@ -23,8 +23,6 @@ public class Main {
     static String domain = "https://abouopensource.github.io#";
     static String dbpedia = "http://dbpedia.org/ontology#";
 
-    public Main() throws IOException {
-    }
 
     public static void main(String[] args) throws IOException, JSONException {
         String datasetURL = "http://localhost:3030/"+database;
@@ -33,10 +31,12 @@ public class Main {
         String graphStore = datasetURL + "/data";
         RDFConnection connection = RDFConnectionFactory.connect(sparqlEndpoint,sparqlUpdate,graphStore);
         Model model = ModelFactory.createDefaultModel();
-        parseBikeStationStEtienne(model);
+        // parseBikeStationStEtienne(model);
         parseBikeStationToulouse(model);
-        //can take a long time
-        parseTrainStation(model,connection);
+        //parseTrainStation(model,connection);
+        //parseStatsStop(model, connection);
+        //parseSchool(model, connection);
+
         connection.load(model);
         connection.close();
     }
@@ -44,8 +44,10 @@ public class Main {
     static public void parseBikeStationStEtienne(Model model) throws IOException, JSONException {
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty(dbpedia+"city");
+        Property city = model.createProperty("http://dbpedia.org/ontology/city");
         Property hasRealTime = model.createProperty(domain+"hasRealTime");
+        Property method = model.createProperty(domain+"method");
+
         Property localId = model.createProperty(domain+"local_id");
         Property pathRealTimeData = model.createProperty(domain+"pathRealTimeData");
         Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
@@ -101,7 +103,7 @@ public class Main {
     static public void parseBikeStationToulouse(Model model) throws IOException, JSONException {
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty(dbpedia+"city");
+        Property city = model.createProperty("http://dbpedia.org/ontology/city");
         Property hasRealTime = model.createProperty(domain+"hasRealTime");
         Property localId = model.createProperty(domain+"local_id");
         Property pathRealTimeData = model.createProperty(domain+"pathRealTimeData");
@@ -142,7 +144,7 @@ public class Main {
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
             Resource train_station = model.createResource("http://dbpedia.org/resource/Train_station");
             stream.forEach((String line)->{
-                String[] items = line.split(",");
+                String[] items = line.split(";");
                 Resource subject = model.createResource(domain+"SSTAS:"+items[0].toString());
                 model.add(subject, RDF.type,object);
                 model.add(subject, RDF.type,train_station);
@@ -161,7 +163,7 @@ public class Main {
     static public void parseSchool(Model model, RDFConnection connection){
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty(dbpedia+"city");
+        Property city = model.createProperty("http://dbpedia.org/ontology/city");
         Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
         Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
 
@@ -169,13 +171,14 @@ public class Main {
             Resource object = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+items[1]);
+                Resource subject = model.createResource(domain+items[0]+"ST_ET");
                 model.add(subject, RDF.type, school);
-                model.add(subject, RDFS.label, model.createLiteral(items[2], "fr"));
+                model.add(subject, RDFS.label, model.createLiteral(items[1], "fr"));
                 model.add(subject, city, st_etienne);
                 model.add(subject, RDFS.label, model.createLiteral(items[2]));
-                model.add(subject, property_lat, model.createTypedLiteral(Float.parseFloat(items[13])));
-                model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[14])));
+                model.add(subject, property_lat, model.createTypedLiteral(Float.parseFloat(items[14])));
+                model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[15])));
+                connection.load(model);
             });
             System.out.println("parseSchool done");
         } catch (IOException e) {
