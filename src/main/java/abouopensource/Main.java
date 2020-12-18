@@ -230,7 +230,7 @@ public class Main {
     static public void parseZoneChargeToulouse(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/placederecharche/bornes-recharge-electrique.csv")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://www.dbpedia.org/page/Bus_stop");
+            Resource bus_stop = model.createResource("http://www.dbpedia.org/resource/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
 
