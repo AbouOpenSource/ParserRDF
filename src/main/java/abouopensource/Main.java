@@ -256,7 +256,8 @@ public class Main {
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
         Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Resource st_etienne = model.createResource("http://www.dbpedia.org/resource/Saint-Étienne");
-        Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
+        Resource school = model.createResource("http://www.dbpedia.org/resource/School");
+
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
 
         try (Stream<String> stream = Files.lines(Paths.get("data/source/school/st-etienne-school.csv")).skip(1)) {
@@ -284,7 +285,7 @@ public class Main {
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
         Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
-        Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
+        Resource school = model.createResource("http://www.dbpedia.org/resurce/School");
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
 
         try (Stream<String> stream = Files.lines(Paths.get("data/source/school/toulouse-school.csv")).skip(1)) {
