@@ -21,7 +21,7 @@ public class Main {
     static String database="one";
 
     static String domain = "https://abouopensource.github.io#";
-    static String dbpedia = "http://dbpedia.org/ontology#";
+    static String dbpedia = "http://www.dbpedia.org/ontology#";
 
 
     public static void main(String[] args) throws IOException, JSONException {
@@ -48,12 +48,12 @@ public class Main {
     static public void parseBikeStationStEtienne(Model model) throws IOException, JSONException {
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty("http://dbpedia.org/ontology/city");
+        Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Property hasRealTime = model.createProperty(domain+"hasRealTime");
         Property method = model.createProperty(domain+"method");
         Property localId = model.createProperty(domain+"local_id");
         Property pathRealTimeData = model.createProperty(domain+"pathRealTimeData");
-        Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
+        Resource st_etienne = model.createResource("http://www.dbpedia.org/resource/Saint-Étienne");
         Resource bike_system= model.createResource("http://www.dbpedia.org/resource/Bicycle-sharing_system");
         Property dataFormat= model.createProperty("https://www.wikidata.org/wiki/Q494823");
         Resource jsonRessource = model.createResource("https://www.wikidata.org/wiki/Q2063");
@@ -82,18 +82,18 @@ public class Main {
 
         try (Stream<String> stream = Files.lines(Paths.get("data/source/TER/saint-etienne.txt")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Property city = model.createProperty("http://dbpedia.org/ontology/city");
-            Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
+            Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+            Resource st_etienne = model.createResource("http://www.dbpedia.org/resource/Saint-Étienne");
 
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Resource train_station = model.createResource("http://dbpedia.org/resource/Train_station");
+            Resource train_station = model.createResource("http://www.dbpedia.org/resource/Train_station");
             stream.forEach((String line)->{
                 String[] items = line.split(",");
                 Resource subject = model.createResource(domain+items[0].toString());
                 model.add(subject, RDF.type,spatialThing);
                 model.add(subject,city,st_etienne);
-                model.add(subject, RDF.type,train_station);
+                model.add(subject, RDF.type, train_station);
                 model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
                 model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[3].toString())));
                 model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[4].toString())));
@@ -111,12 +111,12 @@ public class Main {
 
         try (Stream<String> stream = Files.lines(Paths.get("data/source/TER/toulouse.txt")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Property city = model.createProperty("http://dbpedia.org/ontology/city");
-            Resource toulouse = model.createResource("http://dbpedia.org/resource/Toulouse");
+            Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+            Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
 
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Resource train_station = model.createResource("http://dbpedia.org/resource/Train_station");
+            Resource train_station = model.createResource("http://www.dbpedia.org/resource/Train_station");
             stream.forEach((String line)->{
                 String[] items = line.split(",");
                 Resource subject = model.createResource(domain+items[0].toString());
@@ -139,11 +139,11 @@ public class Main {
     static public void parseBikeStationToulouse(Model model) throws IOException, JSONException {
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty("http://dbpedia.org/ontology/city");
+        Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Property hasRealTime = model.createProperty(domain+"hasRealTime");
         Property localId = model.createProperty(domain+"local_id");
         Property pathRealTimeData = model.createProperty(domain+"pathRealTimeData");
-        Resource toulouse = model.createResource("http://dbpedia.org/resource/Toulouse");
+        Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
         Resource bike_system= model.createResource("http://www.dbpedia.org/resource/Bicycle-sharing_system");
         Property dataFormat= model.createProperty("https://www.wikidata.org/wiki/Q494823");
         Resource jsonResource = model.createResource("https://www.wikidata.org/wiki/Q2063");
@@ -178,8 +178,8 @@ public class Main {
             Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Property city = model.createProperty("http://dbpedia.org/ontology/city");
-            Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
+            Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+            Resource st_etienne = model.createResource("http://www.dbpedia.org/resource/Saint-Étienne");
 
 
             stream.forEach((String line)->{
@@ -203,11 +203,11 @@ public class Main {
     static public void parseArretTransportToulouse(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/arrets/stations-de-toulous.csv")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
+            Resource bus_stop = model.createResource("http://www.dbpedia.org/page/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Property city = model.createProperty("http://dbpedia.org/ontology/city");
-            Resource toulouse = model.createResource("http://dbpedia.org/resource/Toulouse");
+            Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+            Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
 
             stream.forEach((String line)->{
                 String[] items = line.split(";");
@@ -230,7 +230,7 @@ public class Main {
     static public void parseZoneChargeToulouse(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/placederecharche/bornes-recharge-electrique.csv")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
+            Resource bus_stop = model.createResource("http://www.dbpedia.org/page/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
 
@@ -254,7 +254,7 @@ public class Main {
     static public void parseSchoolSaintEtienne(Model model, RDFConnection connection){
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty("http://dbpedia.org/ontology/city");
+        Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
         Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
@@ -282,8 +282,8 @@ public class Main {
     static public void parseSchoolToulouse(Model model, RDFConnection connection){
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-        Property city = model.createProperty("http://dbpedia.org/ontology/city");
-        Resource toulouse = model.createResource("http://dbpedia.org/resource/Toulouse");
+        Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+        Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
         Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
 
