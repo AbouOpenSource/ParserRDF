@@ -62,7 +62,7 @@ public class Main {
         JSONObject objet = new JSONObject(content);
         JSONArray array = objet.getJSONObject("data").getJSONArray("stations");
         for (int i = 0; i < array.length(); i++) {
-            Resource subject = model.createResource(domain+"BS"+array.getJSONObject(i).get("station_id").toString()+"ST-ETIENNE");
+            Resource subject = model.createResource(domain+"StEtienneBikeShare:"+array.getJSONObject(i).get("station_id").toString());
             model.add(subject,RDF.type,spatialThing);
             model.add(subject,city,st_etienne);
             model.add(subject, RDF.type, bike_system);
@@ -90,7 +90,7 @@ public class Main {
             Resource train_station = model.createResource("http://www.dbpedia.org/resource/Train_station");
             stream.forEach((String line)->{
                 String[] items = line.split(",");
-                Resource subject = model.createResource(domain+items[0].toString());
+                Resource subject = model.createResource(domain+"StEtienneTrain:"+items[0].toString());
                 model.add(subject, RDF.type,spatialThing);
                 model.add(subject,city,st_etienne);
                 model.add(subject, RDF.type, train_station);
@@ -119,7 +119,7 @@ public class Main {
             Resource train_station = model.createResource("http://www.dbpedia.org/resource/Train_station");
             stream.forEach((String line)->{
                 String[] items = line.split(",");
-                Resource subject = model.createResource(domain+items[0].toString());
+                Resource subject = model.createResource(domain+"ToulouseTrain:"+items[0].toString());
                 model.add(subject, RDF.type,spatialThing);
                 model.add(subject, city, toulouse);
                 model.add(subject, RDF.type,train_station);
@@ -152,7 +152,7 @@ public class Main {
             Resource object = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+items[3]+"TOULOUSE");
+                Resource subject = model.createResource(domain+"ToulouseBikeShare:"+items[3]);
                 model.add(subject,RDF.type,spatialThing);
                 model.add(subject,city,toulouse);
                 model.add(subject, RDF.type, bike_system);
@@ -184,7 +184,7 @@ public class Main {
 
             stream.forEach((String line)->{
                 String[] items = line.split(",");
-                Resource subject = model.createResource(domain+"SSTAS:"+items[0].toString());
+                Resource subject = model.createResource(domain+"StEtienneArret:"+items[0].toString());
                 model.add(subject, RDF.type,spatialThing);
                 model.add(subject, RDF.type,bus_stop);
                 model.add(subject,city,st_etienne);
@@ -211,7 +211,7 @@ public class Main {
 
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+"ArretTL:"+items[3].replaceAll("\\s+",""));
+                Resource subject = model.createResource(domain+"ToulouseArret:"+items[3].replaceAll("\\s+",""));
                 model.add(subject, RDF.type, spatialThing);
                 model.add(subject, RDF.type, bus_stop);
                 model.add(subject, city, toulouse);
@@ -238,7 +238,7 @@ public class Main {
 
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+"Charge:"+items[0].toString());
+                Resource subject = model.createResource(domain+"ToulouseCharge:"+items[0].toString());
                 model.add(subject, RDF.type, spatialThing);
                 model.add(subject, RDF.type, charge_station);
                 model.add(subject,city,toulouse);
@@ -267,7 +267,7 @@ public class Main {
             Resource object = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+items[0]+"ST_ET");
+                Resource subject = model.createResource(domain+"StEtienneSchool:"+items[0]+"ST_ET");
                 model.add(subject, RDF.type, school);
                 model.add(subject, RDFS.label, model.createLiteral(items[1], "fr"));
                 model.add(subject, RDF.type, spatialThing);
@@ -295,7 +295,7 @@ public class Main {
             Resource object = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+items[2]+"TLSchool");
+                Resource subject = model.createResource(domain+"ToulouseSchool:"+items[2]);
                 model.add(subject, RDF.type, school);
                 model.add(subject, RDFS.label, model.createLiteral(items[3], "fr"));
                 model.add(subject, city, toulouse);
