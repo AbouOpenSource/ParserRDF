@@ -175,7 +175,7 @@ public class Main {
     static public void parseArretTransportSaintEtienne(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/arrets/station-saint-etienne.txt")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
+            Resource bus_stop = model.createResource("http://www.dbpedia.org/resource/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
             Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
@@ -203,7 +203,7 @@ public class Main {
     static public void parseArretTransportToulouse(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/arrets/stations-de-toulous.csv")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://www.dbpedia.org/page/Bus_stop");
+            Resource bus_stop = model.createResource("http://www.dbpedia.org/resource/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
             Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
@@ -255,7 +255,7 @@ public class Main {
         Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
         Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
-        Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
+        Resource st_etienne = model.createResource("http://www.dbpedia.org/resource/Saint-Étienne");
         Resource school = model.createResource("https://www.wikidata.org/wiki/Q3914");
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
 
