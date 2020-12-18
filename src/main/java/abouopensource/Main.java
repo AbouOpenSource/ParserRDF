@@ -230,15 +230,18 @@ public class Main {
     static public void parseZoneChargeToulouse(Model model, RDFConnection connection){
         try (Stream<String> stream = Files.lines(Paths.get("data/source/placederecharche/bornes-recharge-electrique.csv")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Resource bus_stop = model.createResource("http://www.dbpedia.org/resource/Bus_stop");
+            Resource charge_station = model.createResource("http://www.dbpedia.org/resource/Charging_station");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
+            Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
+            Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
 
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+"ArretTL:"+items[0].toString());
-                model.add(subject, RDF.type,spatialThing);
-                model.add(subject, RDF.type,bus_stop);
+                Resource subject = model.createResource(domain+"Charge:"+items[0].toString());
+                model.add(subject, RDF.type, spatialThing);
+                model.add(subject, RDF.type, charge_station);
+                model.add(subject,city,toulouse);
                 model.add(subject, RDFS.label, model.createLiteral(items[3].toString(),"fr"));
                 model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[0].split(",")[0])));
                 model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[0].split(",")[1])));
@@ -285,7 +288,7 @@ public class Main {
         Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
         Property city = model.createProperty("http://www.dbpedia.org/ontology/city");
         Resource toulouse = model.createResource("http://www.dbpedia.org/resource/Toulouse");
-        Resource school = model.createResource("http://www.dbpedia.org/resurce/School");
+        Resource school = model.createResource("http://www.dbpedia.org/resource/School");
         Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
 
         try (Stream<String> stream = Files.lines(Paths.get("data/source/school/toulouse-school.csv")).skip(1)) {
@@ -298,7 +301,7 @@ public class Main {
                 model.add(subject, city, toulouse);
                 model.add(subject,RDF.type,spatialThing);
                 model.add(subject, property_lat, model.createTypedLiteral(Float.parseFloat(items[0].split(",")[0])));
-                model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[0].split(",")[0])));
+                model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[0].split(",")[1])));
                 //connection.load(model);
             });
             System.out.println("parseSchoolToulouse done");
