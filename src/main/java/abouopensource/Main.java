@@ -32,15 +32,15 @@ public class Main {
         RDFConnection connection = RDFConnectionFactory.connect(sparqlEndpoint,sparqlUpdate,graphStore);
         Model model = ModelFactory.createDefaultModel();
 
-        //parseBikeStationStEtienne(model);
-        //parseBikeStationToulouse(model);
-        //parseTrainStationSaintEtienne(model,connection);
-        //parseTrainStationToulouse(model, connection);
-        //parseStatsStop(model, connection);
+        parseBikeStationStEtienne(model);
+        parseBikeStationToulouse(model);
+        parseTrainStationSaintEtienne(model,connection);
+        parseTrainStationToulouse(model, connection);
+        parseArretTransportSaintEtienne(model, connection);
+        parseArretTransportToulouse(model, connection);
         parseSchoolSaintEtienne(model, connection);
         parseSchoolToulouse(model,connection);
-        //parseTrainStation(model,connection);
-
+        parseZoneChargeToulouse(model,connection);
         connection.load(model);
         connection.close();
     }
@@ -97,7 +97,7 @@ public class Main {
                 model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
                 model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[3].toString())));
                 model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[4].toString())));
-                connection.load(model);
+              //  connection.load(model);
             });
             System.out.println("parseTrainStationStEtienne  done");
         } catch (IOException e) {
@@ -126,35 +126,9 @@ public class Main {
                 model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
                 model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[3].toString())));
                 model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[4].toString())));
-                connection.load(model);
+                //connection.load(model);
             });
-            System.out.println("parseTrainStation done");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
-
-    static public void parseTrainStation(Model model,RDFConnection connection){
-
-        try (Stream<String> stream = Files.lines(Paths.get("data/source/TER/stops.txt")).skip(1)) {
-            Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
-            Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
-            Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Resource train_station = model.createResource("http://dbpedia.org/resource/Train_station");
-
-            stream.forEach((String line)->{
-                String[] items = line.split(",");
-                Resource subject = model.createResource(domain+items[0].toString());
-                model.add(subject, RDF.type,spatialThing);
-                model.add(subject, RDF.type,train_station);
-                model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
-                model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[3].toString())));
-                model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[4].toString())));
-                connection.load(model);
-            });
-            System.out.println("parseTrainStation done");
+            System.out.println("parseTrainStationToulouse done");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -198,23 +172,77 @@ public class Main {
 
     }
 
-    static public void parseStatsStop(Model model, RDFConnection connection){
-        try (Stream<String> stream = Files.lines(Paths.get("data/source/Stats/stops.txt")).skip(1)) {
+    static public void parseArretTransportSaintEtienne(Model model, RDFConnection connection){
+        try (Stream<String> stream = Files.lines(Paths.get("data/source/arrets/station-saint-etienne.txt")).skip(1)) {
             Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
             Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
             Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
-            Resource train_station = model.createResource("http://dbpedia.org/resource/Train_station");
+            Property city = model.createProperty("http://dbpedia.org/ontology/city");
+            Resource st_etienne = model.createResource("http://dbpedia.org/resource/Saint-Étienne");
+
+
+            stream.forEach((String line)->{
+                String[] items = line.split(",");
+                Resource subject = model.createResource(domain+"SSTAS:"+items[0].toString());
+                model.add(subject, RDF.type,spatialThing);
+                model.add(subject, RDF.type,bus_stop);
+                model.add(subject,city,st_etienne);
+                model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
+                model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[2].toString())));
+                model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[3].toString())));
+               // connection.load(model);
+            });
+            System.out.println("parseArretTransportSaintEtienne done");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    static public void parseArretTransportToulouse(Model model, RDFConnection connection){
+        try (Stream<String> stream = Files.lines(Paths.get("data/source/arrets/stations-de-toulous.csv")).skip(1)) {
+            Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
+            Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
+            Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
+            Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
+            Property city = model.createProperty("http://dbpedia.org/ontology/city");
+            Resource toulouse = model.createResource("http://dbpedia.org/resource/Toulouse");
 
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+"SSTAS:"+items[0].toString());
+                Resource subject = model.createResource(domain+"ArretTL:"+items[3].replaceAll("\\s+",""));
+                model.add(subject, RDF.type, spatialThing);
+                model.add(subject, RDF.type, bus_stop);
+                model.add(subject, city, toulouse);
+                model.add(subject, RDFS.label, model.createLiteral(items[3].toString(),"fr"));
+                model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[0].split(",")[0])));
+                model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[0].split(",")[1])));
+               // connection.load(model);
+            });
+            System.out.println("parseTrainStation done");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    static public void parseZoneChargeToulouse(Model model, RDFConnection connection){
+        try (Stream<String> stream = Files.lines(Paths.get("data/source/placederecharche/bornes-recharge-electrique.csv")).skip(1)) {
+            Resource spatialThing = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
+            Resource bus_stop = model.createResource("http://dbpedia.org/page/Bus_stop");
+            Property property_lat = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#lat");
+            Property property_long = model.createProperty("http://www.w3.org/2003/01/geo/wgs84_pos#long");
+
+            stream.forEach((String line)->{
+                String[] items = line.split(";");
+                Resource subject = model.createResource(domain+"ArretTL:"+items[0].toString());
                 model.add(subject, RDF.type,spatialThing);
-                model.add(subject, RDF.type,train_station);
-                model.add(subject, RDFS.label, model.createLiteral(items[1].toString(),"fr"));
-                model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[3].toString())));
-                model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[4].toString())));
-                connection.load(model);
+                model.add(subject, RDF.type,bus_stop);
+                model.add(subject, RDFS.label, model.createLiteral(items[3].toString(),"fr"));
+                model.add(subject, property_lat, model.createTypedLiteral(Float.valueOf(items[0].split(",")[0])));
+                model.add(subject,property_long, model.createTypedLiteral(Float.valueOf(items[0].split(",")[1])));
+               // connection.load(model);
             });
             System.out.println("parseTrainStation done");
         } catch (IOException e) {
@@ -243,7 +271,7 @@ public class Main {
                 model.add(subject, city, st_etienne);
                 model.add(subject, property_lat, model.createTypedLiteral(Float.parseFloat(items[14])));
                 model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[15])));
-                connection.load(model);
+               // connection.load(model);
             });
             System.out.println("parseSchoolStEtienne done");
         } catch (IOException e) {
@@ -263,18 +291,20 @@ public class Main {
             Resource object = model.createResource("http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing");
             stream.forEach((String line)->{
                 String[] items = line.split(";");
-                Resource subject = model.createResource(domain+items[0]+"TL");
+                Resource subject = model.createResource(domain+items[2]+"TLSchool");
                 model.add(subject, RDF.type, school);
                 model.add(subject, RDFS.label, model.createLiteral(items[3], "fr"));
                 model.add(subject, city, toulouse);
                 model.add(subject,RDF.type,spatialThing);
                 model.add(subject, property_lat, model.createTypedLiteral(Float.parseFloat(items[0].split(",")[0])));
                 model.add(subject, property_long, model.createTypedLiteral(Float.parseFloat(items[0].split(",")[0])));
-                connection.load(model);
+                //connection.load(model);
             });
             System.out.println("parseSchoolToulouse done");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }
